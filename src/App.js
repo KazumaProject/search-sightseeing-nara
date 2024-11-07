@@ -56,7 +56,6 @@ function App() {
         />
       </div>
       <div className="results">
-        <h2>Conversion Results:</h2>
         <ul>
           {results.map(([english, japanese], index) => (
             <li key={index} onClick={() => handleItemClick(japanese)}>

@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faInstagram, faYoutube, faGoogle } from '@fortawesome/free-brands-svg-icons';
 import './App.css';
 
 function App() {
@@ -38,15 +40,24 @@ function App() {
     }
   };
 
-  const handleItemClick = (japanese) => {
-    // Open Instagram hashtag page with the response data
-    const hashtag = encodeURIComponent(japanese); // Encode hashtag for URL
+  const handleInstagramClick = (japanese) => {
+    const hashtag = encodeURIComponent(japanese.replace(/\s+/g, ''));
     window.open(`https://www.instagram.com/explore/tags/${hashtag}/`, '_blank');
+  };
+
+  const handleYouTubeClick = (japanese) => {
+    const query = encodeURIComponent(japanese + " 奈良");
+    window.open(`https://www.youtube.com/results?search_query=${query}`, '_blank');
+  };
+
+  const handleGoogleMapsClick = (japanese) => {
+    const query = encodeURIComponent(japanese);
+    window.open(`https://www.google.com/maps/search/?api=1&query=${query}`, '_blank');
   };
 
   return (
     <div className="App">
-      <h1> 奈良のラーメン屋</h1>
+      <h1>奈良のラーメン屋</h1>
       <div className="search-box">
         <input
           type="text"
@@ -58,8 +69,27 @@ function App() {
       <div className="results">
         <ul>
           {results.map(([english, japanese], index) => (
-            <li key={index} onClick={() => handleItemClick(japanese)}>
-              {english} - {japanese}
+            <li key={index} className="result-item">
+              <div className="text">
+                {english} - {japanese}
+              </div>
+              <div className="icon-group">
+                <FontAwesomeIcon
+                  icon={faInstagram}
+                  onClick={() => handleInstagramClick(japanese)}
+                  className="icon"
+                />
+                <FontAwesomeIcon
+                  icon={faYoutube}
+                  onClick={() => handleYouTubeClick(japanese)}
+                  className="icon"
+                />
+                <FontAwesomeIcon
+                  icon={faGoogle}
+                  onClick={() => handleGoogleMapsClick(japanese)}
+                  className="icon"
+                />
+              </div>
             </li>
           ))}
         </ul>
